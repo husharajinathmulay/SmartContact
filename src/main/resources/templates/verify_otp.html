@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div id="login">
+			<div class="container">
+				<div id="login-row"
+					class="row justify-content-center align-items-center">
+					<div id="login-column" class="col-md-6">
+						<div id="login-box" class="col-md-12" style="height:300px">
+						<div class="container text-center">
+ <div th:if="${session.message}" th:classappend="${session.message.type}"  class="alert" role="alert">
+<p class="text-center" th:text="${session.message.content}"></p>
+ <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+</div>
+ </div>
+							<form id="verify-otp" class="form" th:action="@{/verify-opt}"
+								action="" method="post">
+								<h3 class="text-center text-infomt-1">Verify OTP</h3>
+								<div th:if="${param.error}" class="alert alert-danger">
+									Invalid User Name</div>
+								<div th:if="${param.logout}" class="alert alert-success">
+									you have been logout</div>
+								<div class="form-group">
+									<label for="otp" class="text-info">Enter OTP:</label><br>
+									<input type="text" name="otp" id="otp" class="form-control"
+										placeholder="Please enter otp" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6">
+								</div>
+								<div id="otp_error"></div>
+								<div class="text-center">
+									<input type="submit" name="submit" id="submitt" class="btn btn-warning btn-md"
+										value="Verity">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+		<style>
+.error {
+	color: red;
+}
+</style>
+		<script>
+			$("#verify-otp").validate({
+				ignore : [],
+				debug : !1,
+				rules : {
+					otp : {
+						required : !0,
+						
+					},
+
+				},
+				messages : {
+					otp : {
+						required : "* Enter an otp.",
+						
+					},
+
+				},
+				errorPlacement : function(error, element) {
+					if (element.prop('name') === 'otp') {
+						error.appendTo('#otp_error');
+					}
+
+				},
+				submitHandler : function(e) {
+
+					//  	if (grecaptcha.getResponse()) {
+					// 	      $('#captchMsg').hide();
+					$("#submitt").attr("disabled", !0), e.submit()
+					// } else {
+					// 	$('#captchMsg').text('* Please select captcha.');
+
+					// }
+
+				}
+			});
+		</script>
+	</section>
+
+</body>
+</html>

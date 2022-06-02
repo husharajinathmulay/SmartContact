@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" >
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="c:${contact}">
+      <th scope="row" th:text="${'SCM'+c.getId()}"></th>
+      <td><a href="#" class="item" th:href="@{'/user/contact-details/'+${c.id}}"><img src="" th:src="@{'/image/'+${c.getImage()}}" class="my_profile" alt="Profile photo" /></a><span th:text="${c.getName()}"></span></td>
+      <td th:text="${c.getEmail()}"></td>
+      <td th:text="${c.getPhone()}"></td>
+      <td>
+      <a href="#" class="item" th:onclick="|delete_contact(${c.id})|"><button class="btn btn-danger btn-sm">Delete</button></a>
+     <br>
+      <form th:action="@{'/user/contact-update/'+${c.id}}" class="mt-2" method="post">
+         <button class="btn btn-primary btn-sm">Update</button>
+     </form>
+      </td>
+    </tr>
+    
+  </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>add contact</title>
+</head>
+<body>
+	<section>
+	<div class="card mr-3 ml-2">
+		<div class="card-body">
+			<h1 class="text-center">Add Contact</h1>
+			<div class="container-fluid mt-1">
+				<div class="row">
+					<div class="col-md-10 offset-md-1">
+						<form action="#" th:object="${contact}"
+							enctype="multipart/form-data"
+							 class="mt-2"  method="post" th:action="@{/user/contact-process}" id="my_form">
+							
+							<div class="input-group">
+							<div class="input-group-prepend">
+							<div class="input-group-text mr-1">
+							<i class="fa fa-plus"></i>
+							</div>
+							</div>
+							<input type="text" name="name" id="name"  oninput="this.value=this.value.replace(/[^a-z A-Z]/g,'');" placeholder="Enter name here" class="form-control">
+							</div>
+							<div  id="name_error"></div>
+							
+							<div class="input-group mt-3">
+							<div class="input-group-prepend">
+							<div class="input-group-text mr-1">
+							<i class="fas fa-user-alt"></i>
+							</div>
+							</div>
+							<input type="text" name="secondName"  id="secondName" placeholder="Enter secondName here" class="form-control" oninput="this.value=this.value.replace(/[^a-z A-Z]/g,'');">
+							</div>
+							<div  id="secondName_error"></div>
+							
+							
+							
+							<div class="input-group mt-3">
+							<div class="input-group-prepend">
+							<div class="input-group-text mr-1">
+							<i class="fa fa-phone"></i>
+							</div>
+							</div>
+							<input type="text" name="phone" id="phone" maxlength="10" placeholder="Enter phone here"   class="form-control" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+							</div>
+							<div  id="phone_error"></div>
+							
+							
+							<div class="input-group mt-3">
+							<div class="input-group-prepend">
+							<div class="input-group-text mr-1">
+							@
+							</div>
+							</div>
+							<input type="email" name="email" id="email"  placeholder="Enter email here" class="form-control" >
+							</div>
+							<div  id="email_error"></div>
+							
+							
+							<div class="input-group mt-3">
+							<div class="input-group-prepend">
+							<div class="input-group-text mr-1">
+							<i class="fa fa-briefcase"></i>
+							</div>
+							</div>
+							<input type="text" name="work" id="work"   placeholder="Enter work here" class="form-control" >
+							</div>
+							<div  id="work_error"></div>
+							
+							
+							<div class="form-group mt-3">
+							<textarea name="description" id="mytextarea"  rows="10" th:classappend="${#fields.hasErrors('description')? 'is-invalid':''}"  placeholder="Enter Contact Description" class="form-control"></textarea>
+							</div>
+							<div  id="description_error"></div>
+							
+							<div class="custom-file mt-3">
+							<input type="file" name="image" id="image"/>
+							</div>
+							<div  id="image_error"></div>
+							
+							<div class="container text-center">
+							<button class="btn btn-outline-primary">Submit</button>
+							</div>
+							
+							</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+      tinymce.init({
+        selector: '#mytextarea'
+      });
+    </script>
+     <script>
+$(document).ready(function(){
+$(".item").removeClass("active");
+$("#add-link").addClass("active");
+});
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<style>
+    .error{
+        color:red;
+    }
+</style>
+ <script>
+     $("#my_form").validate({
+         ignore: [],
+         debug: !1,
+         rules: {
+             name: {
+                 required: true
+             },
+             secondName: {
+                 required: true
+             },
+             work: {
+                 required: true
+             },
+             description: {
+                 required: true
+             },
+             
+             email: {
+                 required: !0,
+                 email: !0
+             },
+             phone: {
+                 required: !0,
+                 number: !0,
+                 minlength: 10,
+                 maxlength: 10
+             },
+             image: {
+                 required: !0,
+                 accept: 'png|jpg|jpeg',
+             },
+         },
+         messages: {
+             name: {
+                 required: "* Please enter name."
+             },
+             secondName: {
+                 required: "* Please enter second name."
+             },
+             work: {
+                 required: "* Please enter work."
+             },
+             description: {
+                 required: "* Please enter description."
+             },
+             
+             
+             email: {
+                 required: "* Enter an email.",
+                 email: "* Enter a valid email."
+             },
+             phone: {
+                 required: "* Enter mobile no.",
+                 number: "* The mobile no field only contain numerical characters.",
+                 minlength: "* The mobile no field only contain 10 characters.",
+                 maxlength: "* The mobile no field only contain 10 characters."
+             },
+             image: {
+                 required: "* Please select image.",
+                 accept: 'file type must be JPG|JPEG|PNG',
+             },
+         },
+         errorPlacement: function(error, element) {
+             if (element.prop('name') === 'name') {
+                 error.appendTo('#name_error');
+             }
+
+              if (element.prop('name') === 'email') {
+                 error.appendTo('#email_error');
+             }
+
+              if (element.prop('name') === 'phone') {
+                 error.appendTo('#phone_error');
+             }
+              if (element.prop('name') === 'secondName') {
+                  error.appendTo('#secondName_error');
+              }
+              if (element.prop('name') === 'work') {
+                  error.appendTo('#work_error');
+              }
+              if (element.prop('name') === 'description') {
+                  error.appendTo('#description_error');
+              }
+              if (element.prop('name') === 'image') {
+                  error.appendTo('#image_error');
+              }
+                 
+         
+         },
+         submitHandler: function(e) {
+             
+            //  	if (grecaptcha.getResponse()) {
+            // 	      $('#captchMsg').hide();
+				      $("#submitt").attr("disabled", !0), e.submit()
+				    // } else {
+				    // 	$('#captchMsg').text('* Please select captcha.');
+				       
+				    // }
+            
+         }
+     });
+ </script>
+	</section>
+</body>
+</html>
